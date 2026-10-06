@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Timetable</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #4a6cf7;
+            color: white;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 10px 18px;
+            background: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3451c6;
+        }
+
+        .back {
+            margin-top: 20px;
+            background: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📅 My Study Timetable</h1>
+
+    <form method="POST" action="/timetable">
+
+        <select name="day" required>
+            <option value="">Select Day</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+        </select>
+
+        <input type="text" name="subject"
+               placeholder="Subject" required>
+
+        <input type="time" name="time" required>
+
+        <button type="submit">Add</button>
+
+    </form>
+
+    <table>
+
+        <tr>
+            <th>Day</th>
+            <th>Subject</th>
+            <th>Time</th>
+        </tr>
+
+        {% for item in timetable %}
+
+        <tr>
+            <td>{{ item.day }}</td>
+            <td>{{ item.subject }}</td>
+            <td>{{ item.time }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <button class="back"
+            onclick="window.location.href='/dashboard'">
+        ← Back to Dashboard
+    </button>
+
+</div>
+
+</body>
+</html>

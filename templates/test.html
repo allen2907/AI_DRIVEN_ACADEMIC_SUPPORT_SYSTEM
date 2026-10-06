@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Generated Test</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .info {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .info h2 {
+            color: #172554;
+            margin-top: 0;
+        }
+
+        .question {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .question h3 {
+            color: #172554;
+            margin-top: 0;
+        }
+
+        .question p {
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 1.6;
+        }
+
+        .option {
+            display: block;
+            background: #f8fafc;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #e0f2fe;
+            border-color: #2563eb;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .submit-button {
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 20px;
+            background: #475569;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background: #334155;
+        }
+
+        .message {
+            background: #fee2e2;
+            padding: 20px;
+            border-radius: 10px;
+            color: #991b1b;
+            text-align: center;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e3a8a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🧠 AI Generated Test</h1>
+    <p>AI Student Assistant</p>
+</div>
+
+<div class="container">
+
+    {% if message %}
+
+        <div class="message">
+
+            <h2>{{ message }}</h2>
+
+            <a class="back" href="/dashboard">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    {% else %}
+
+        <div class="info">
+
+            <h2>📚 Study Material Test</h2>
+
+            <p>
+                <strong>Material:</strong>
+                {{ filename }}
+            </p>
+
+            <p>
+                Answer all questions and submit the test
+                to see your score.
+            </p>
+
+            <p>
+                📝 <strong>Number of Questions:</strong>
+                {{ questions|length }}
+            </p>
+
+        </div>
+
+
+        <form action="/submit_test" method="POST">
+
+            {% for q in questions %}
+
+                {% set q_index = loop.index0 %}
+
+                <div class="question">
+
+                    <span class="question-number">
+                        Question {{ loop.index }}
+                    </span>
+
+                    <h3>
+                        {{ q.question }}
+                    </h3>
+
+                    {% for option in q.options %}
+
+                        <label class="option">
+
+                            <input
+                                type="radio"
+                                name="answer_{{ q_index }}"
+                                value="{{ option }}"
+                                required
+                            >
+
+                            {{ option }}
+
+                        </label>
+
+                    {% endfor %}
+
+                    <input
+                        type="hidden"
+                        name="correct_{{ q_index }}"
+                        value="{{ q.answer }}"
+                    >
+
+                </div>
+
+            {% endfor %}
+
+
+            <div class="submit-section">
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    ✅ Submit Test
+                </button>
+
+                <br>
+
+                <a
+                    class="back"
+                    href="/dashboard"
+                >
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+        </form>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

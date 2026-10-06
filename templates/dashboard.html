@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Student Assistant - Dashboard</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .upload-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .upload-box h2 {
+            color: #172554;
+            margin-top: 0;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            width: 90%;
+            margin-bottom: 15px;
+        }
+
+        .upload-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .upload-button:hover {
+            background: #1d4ed8;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #172554;
+            margin-top: 0;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .note-form select {
+            width: 100%;
+            padding: 13px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 12px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .note-form button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .note-form button:hover {
+            background: #1d4ed8;
+        }
+
+        .selected-file {
+            background: #eff6ff;
+            color: #1e3a8a;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>🎓 AI Student Assistant</h1>
+
+    <p>Academic Support System for Students</p>
+
+</div>
+
+
+<div class="container">
+
+
+    {% if message %}
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+    {% endif %}
+
+
+    <!-- UPLOAD SECTION -->
+
+    <div class="upload-box">
+
+        <h2>📤 Upload Study Material</h2>
+
+        <p>
+            Upload your syllabus or study material in PDF or TXT format.
+        </p>
+
+        <form
+            action="/upload"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <input
+                type="file"
+                name="syllabus"
+                accept=".pdf,.txt"
+                required
+            >
+
+            <br>
+
+            <button
+                type="submit"
+                class="upload-button"
+            >
+                📤 Upload Material
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- FEATURE CARDS -->
+
+    <div class="cards">
+
+
+        <!-- AI NOTES -->
+
+        <div class="card">
+
+            <h2>📝 AI Notes</h2>
+
+            <p>
+                Select an uploaded study material and generate
+                quick summaries, important points, keywords,
+                topics and exam-focused content.
+            </p>
+
+
+            {% if uploaded_files %}
+
+                <form
+                    class="note-form"
+                    action="/generate_notes"
+                    method="POST"
+                >
+
+                    <select
+                        name="filename"
+                        required
+                    >
+
+                        <option value="">
+                            📚 Select Study Material
+                        </option>
+
+
+                        {% for file in uploaded_files %}
+
+                            <option
+                                value="{{ file }}"
+                                {% if file == uploaded_file %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                📄 {{ file }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    <button type="submit">
+                        📝 Generate Notes
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <p>
+                    No study material uploaded yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- AI TEST -->
+
+        <div class="card">
+
+            <h2>🧠 AI Test</h2>
+
+            <p>
+                Generate a subject-based test with up to
+                10 multiple-choice questions.
+            </p>
+
+            <a
+                class="button"
+                href="/generate_test"
+            >
+                Generate Test
+            </a>
+
+        </div>
+
+
+        <!-- SYLLABUS -->
+
+        <div class="card">
+
+            <h2>📖 Syllabus</h2>
+
+            <p>
+                View the currently selected study material
+                and syllabus content.
+            </p>
+
+            <a
+                class="button"
+                href="/syllabus"
+            >
+                View Syllabus
+            </a>
+
+        </div>
+
+
+        <!-- TIMETABLE -->
+
+        <div class="card">
+
+            <h2>📅 Study Timetable</h2>
+
+            <p>
+                Organize your subjects and create
+                a personal study schedule.
+            </p>
+
+            <a
+                class="button"
+                href="/timetable"
+            >
+                Open Timetable
+            </a>
+
+        </div>
+
+
+        <!-- QUIZ -->
+
+        <div class="card">
+
+            <h2>❓ Quick Quiz</h2>
+
+            <p>
+                Test your basic CSE knowledge with
+                a quick academic quiz.
+            </p>
+
+            <a
+                class="button"
+                href="/quiz"
+            >
+                Start Quiz
+            </a>
+
+        </div>
+
+
+        <!-- RESOURCES -->
+
+        <div class="card">
+
+            <h2>📚 Learning Resources</h2>
+
+            <p>
+                Access useful resources for Python,
+                Java, DSA, DBMS and Machine Learning.
+            </p>
+
+            <a
+                class="button"
+                href="/resources"
+            >
+                View Resources
+            </a>
+
+        </div>
+
+
+        <!-- PYQ -->
+
+        <div class="card">
+
+            <h2>📄 Previous Year Questions</h2>
+
+            <p>
+                Practice important questions organized
+                according to marks.
+            </p>
+
+            <a
+                class="button"
+                href="/pyq"
+            >
+                View PYQs
+            </a>
+
+        </div>
+
+
+        <!-- AI TOOLS -->
+
+        <div class="card">
+
+            <h2>🤖 AI Tools</h2>
+
+            <p>
+                Access the academic AI tools available
+                in the Student Assistant.
+            </p>
+
+            <a
+                class="button"
+                href="/ai_tools"
+            >
+                Open AI Tools
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

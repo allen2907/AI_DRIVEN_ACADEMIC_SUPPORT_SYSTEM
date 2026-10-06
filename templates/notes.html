@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+```
+<title>AI Notes</title>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+    }
+
+    .header {
+        background: #172554;
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 30px auto;
+    }
+
+    .box {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+    }
+
+    .box h2 {
+        color: #172554;
+    }
+
+    .point {
+        background: #f8fafc;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-left: 5px solid #2563eb;
+    }
+
+    .keyword {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1e3a8a;
+        padding: 8px 12px;
+        margin: 5px;
+        border-radius: 20px;
+    }
+
+    .button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+
+    .message {
+        background: #fee2e2;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="header">
+
+    <h1>📝 AI Generated Notes</h1>
+
+    <p>AI Student Assistant</p>
+
+</div>
+
+
+<div class="container">
+
+    {% if message %}
+
+        <div class="box">
+
+            <div class="message">
+                {{ message }}
+            </div>
+
+            <a class="button" href="/dashboard">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    {% else %}
+
+
+        <div class="box">
+
+            <h2>📄 Study Material</h2>
+
+            <p>
+                <strong>File:</strong>
+                {{ filename }}
+            </p>
+
+        </div>
+
+
+        <div class="box">
+
+            <h2>📌 Quick Summary</h2>
+
+            {% for sentence in summary %}
+
+                <div class="point">
+                    {{ sentence }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="box">
+
+            <h2>⭐ Important Points</h2>
+
+            {% for point in key_points %}
+
+                <div class="point">
+                    {{ point }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="box">
+
+            <h2>🔑 Important Keywords</h2>
+
+            {% for keyword in keywords %}
+
+                <span class="keyword">
+                    {{ keyword }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+
+        <a class="button" href="/dashboard">
+            ← Back to Dashboard
+        </a>
+
+    {% endif %}
+
+</div>
+```
+
+</body>
+
+</html>

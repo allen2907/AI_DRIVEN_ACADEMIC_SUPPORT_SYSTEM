@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+```
+<title>My Syllabus</title>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+    }
+
+    .header {
+        background: #172554;
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 30px auto;
+    }
+
+    .box {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .filename {
+        background: #e0f2fe;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .syllabus-text {
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 10px;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        border: 1px solid #ddd;
+    }
+
+    .button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="header">
+
+    <h1>📚 My Syllabus</h1>
+
+    <p>AI Student Assistant</p>
+
+</div>
+
+
+<div class="container">
+
+    <div class="box">
+
+        {% if message %}
+
+            <h2>{{ message }}</h2>
+
+        {% else %}
+
+            <h2>📄 Extracted Study Material</h2>
+
+            <div class="filename">
+
+                <strong>File:</strong>
+
+                {{ filename }}
+
+            </div>
+
+
+            <div class="syllabus-text">
+
+                {{ syllabus_text }}
+
+            </div>
+
+        {% endif %}
+
+
+        <a class="button" href="/dashboard">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+```
+
+</body>
+
+</html>
